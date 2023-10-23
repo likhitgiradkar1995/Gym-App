@@ -17,8 +17,8 @@ const Navbar = () => {
       <Link to="/">
         <img
           src={gymLogo}
-          aly="logo"
-          style={{ width: "48px", height: "48px", margin: "0 20px" }}
+          alt="logo"
+          style={{ width: "58px", height: "58px", margin: "0 20px" }}
         />
       </Link>
       <Stack direction="row" gap="40px" fontSize="24px" alignItems="flex-end">
