@@ -9,7 +9,7 @@ const Exercises = ({ exercises, setExercises, bodyPart }) => {
 
   const indexOfLastExercise = currentPage * exercisePerPage;
   const indexOfFirstExercise = indexOfLastExercise - exercisePerPage;
-  const currentExercise = exercises.slice(
+  const currentExercise = exercises?.slice(
     indexOfFirstExercise,
     indexOfLastExercise
   );
