@@ -4,7 +4,6 @@ import ExerciseCard from "./ExerciseCard";
 import { exerciseOptions, fetchData } from "../Utils/fetchData";
 
 const Exercises = ({ exercises, setExercises, bodyPart }) => {
-  console.log(exercises);
   const [currentPage, setCurrentPage] = useState(1);
   const exercisePerPage = 9;
 
