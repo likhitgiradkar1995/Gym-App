@@ -2,9 +2,11 @@ import { Box, Pagination, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import ExerciseCard from "./ExerciseCard";
 import { exerciseOptions, fetchData } from "../Utils/fetchData";
+import Loader from "./Loader";
 
 const Exercises = ({ exercises, setExercises, bodyPart }) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
   const exercisePerPage = 9;
 
   const indexOfLastExercise = currentPage * exercisePerPage;
@@ -21,10 +23,11 @@ const Exercises = ({ exercises, setExercises, bodyPart }) => {
 
   useEffect(() => {
     const fetchExercisesData = async () => {
+      setLoading(true);
       let exerciseData = [];
       if (bodyPart === "all") {
         exerciseData = await fetchData(
-          "https://exercisedb.p.rapidapi.com/exercises",
+          `https://exercisedb.p.rapidapi.com/exercises?limit=150`,
           exerciseOptions
         );
       } else {
@@ -33,7 +36,9 @@ const Exercises = ({ exercises, setExercises, bodyPart }) => {
           exerciseOptions
         );
       }
+      setCurrentPage(1);
       setExercises(exerciseData);
+      setLoading(false);
     };
     fetchExercisesData();
   }, [bodyPart]);
@@ -43,16 +48,24 @@ const Exercises = ({ exercises, setExercises, bodyPart }) => {
       <Typography variant="h3" mb="46px">
         Showing Results
       </Typography>
-      <Stack
-        direction="row"
-        sx={{ gap: { lg: "110px", xs: "50px" } }}
-        flexWrap="wrap"
-        justifyContent="center"
-      >
-        {currentExercise.map((exercise, index) => (
-          <ExerciseCard key={index} exercise={exercise} />
-        ))}
-      </Stack>
+      {loading ? (
+        <Loader />
+      ) : (
+        <Stack
+          direction="row"
+          sx={{ gap: { lg: "110px", xs: "50px" } }}
+          flexWrap="wrap"
+          justifyContent="center"
+        >
+          {currentExercise.length ? (
+            currentExercise.map((exercise, index) => (
+              <ExerciseCard key={index} exercise={exercise} />
+            ))
+          ) : (
+            <Loader />
+          )}
+        </Stack>
+      )}
       <Stack mt="100px" alignItems="center">
         {exercises.length > 9 && (
           <Pagination
